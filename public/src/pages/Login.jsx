@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate,  } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,6 +17,7 @@ export default function Login() {
     draggable: true,
     theme: "dark",
   };
+  
   useEffect(() => {
     if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
       navigate("/");
@@ -62,9 +63,9 @@ export default function Login() {
         const role = user.role;
   
         if (role === "client") {
-          navigate("/chat");
-        } else if (role === "admin") {
           navigate("/");
+        } else if (role === "admin") {
+          navigate("/admin");
         } else {
           console.error("Invalid user role:", role);
         }
@@ -96,7 +97,7 @@ export default function Login() {
           />
           <button type="submit">Log In</button>
           <span>
-            Don't have an account ? <Link to="/register">Create One.</Link>
+            Don't have an account ? <a href="/register">Create One.</a>
           </span>
         </form>
       </FormContainer>

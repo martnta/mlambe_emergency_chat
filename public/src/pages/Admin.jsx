@@ -12,11 +12,16 @@ const AdminPage = () => {
   const [currentUser, setCurrentUser] = useState(undefined);
   const navigate = useNavigate();
 
+  
   useEffect(async () => {
     if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate('/login');
+      navigate("/login");
     } else {
-      setCurrentUser(await JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)));
+      setCurrentUser(
+        await JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        )
+      );
     }
   }, [navigate]);
 

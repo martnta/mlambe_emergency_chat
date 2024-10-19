@@ -88,9 +88,9 @@ export default function Register() {
         const role = user.role;
 
         if (role === "client") {
-          navigate("/chat");
-        } else if (role === "admin") {
           navigate("/");
+        } else if (role === "admin") {
+          navigate("/admin");
         } else {
           console.error("Invalid user role:", role);
         }
