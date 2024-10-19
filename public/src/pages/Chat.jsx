@@ -14,7 +14,7 @@ export default function Chat() {
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
- 
+ //checking user if availble
   useEffect(async () => {
     if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
       navigate("/login");
@@ -27,7 +27,7 @@ export default function Chat() {
     }
   }, [navigate]);
 
-  
+  //adding user to chat
   useEffect(() => {
     if (currentUser) {
       socket.current = io(host);

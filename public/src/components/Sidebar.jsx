@@ -10,19 +10,19 @@ const Sidebar = () => {
         {/** Dashboard */}
         <li className="py-2 flex items-center justify-center rounded-sm hover:bg-white hover:text-green-500 transition">
           <BsFillHouseDoorFill className="mr-2" />
-          <Link to="#">Dashboard</Link>
+          <Link to="/admin">Dashboard</Link>
         </li>
 
         {/** Emergencies */}
         <li className="py-2 flex items-center justify-center rounded-sm hover:bg-white hover:text-green-500 transition">
           <BsExclamationTriangle className="mr-2" />
-          <Link to="#">Emergencies</Link>
+          <Link to="/update">Emergencies</Link>
         </li>
 
         {/** Chat */}
         <li className="py-2 flex items-center justify-center rounded-sm hover:bg-white hover:text-green-500 transition">
           <BsChatDots className="mr-2" />
-          <Link to="/Chat">Chat</Link>
+          <Link to="/">Chat</Link>
         </li>
 
         {/** Settings */}

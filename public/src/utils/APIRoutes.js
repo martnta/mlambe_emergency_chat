@@ -7,4 +7,6 @@ export const sendMessageRoute = `${host}/api/messages/addmsg`;
 export const recieveMessageRoute = `${host}/api/messages/getmsg`;
 export const setAvatarRoute = `${host}/api/auth/setavatar`;
 export const getEmergency = `${host}api/emergency/getemg/`;
+export const updatedate = `${host}api/emergency//updateemg/`;
+
  

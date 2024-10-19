@@ -4,10 +4,10 @@ const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
 const messageRoutes = require("./routes/messages");
 const emergencyRoutes = require("./routes/emergency"); // Import the emergency routes
-const app = express();
+
 const socket = require("socket.io");
 require("dotenv").config();
-
+const app = express();
 app.use(cors());
 app.use(express.json());
 
@@ -22,6 +22,7 @@ mongoose
     console.log(err.message);
   });
 
+  //routes
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/emergency", emergencyRoutes); // Mount the emergency routes to the '/api/emergency' endpoint

@@ -37,6 +37,22 @@ module.exports.getAllEmergencies = async (req, res, next) => {
   };
   
 
+  ///get by id
+  module.exports.getById = async (req, res, next) => {
+    try {
+      const { status } = req.body;
+      const emergency = await Emergency.findById(req.params.id, { status }, { new: true });
+  
+      if (!emergency) {
+        return res.status(404).json({ msg: 'Emergency not found' });
+      }
+  
+      return res.json({ msg: 'Emergency found successfully' });
+    } catch (ex) {
+      next(ex);
+    }
+  };
+
 //sending emergency  
 
 module.exports.addEmergency = async (req, res, next) => {

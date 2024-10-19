@@ -60,7 +60,7 @@ export default function Register() {
 
     return true;
   };
-
+//register button
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
