@@ -30,7 +30,7 @@ module.exports.getAllEmergencies = async (req, res, next) => {
         return res.status(404).json({ msg: 'Emergency not found' });
       }
   
-      return res.json({ msg: 'Emergency status updated successfully' });
+      return res.status(201).json({ msg: 'Emergency status updated successfully' , emergency});
     } catch (ex) {
       next(ex);
     }
@@ -40,18 +40,22 @@ module.exports.getAllEmergencies = async (req, res, next) => {
   ///get by id
   module.exports.getById = async (req, res, next) => {
     try {
-      const { status } = req.body;
-      const emergency = await Emergency.findById(req.params.id, { status }, { new: true });
+      // Correct extraction of the ID from request params
+      const emergency = await Emergency.findById(req.params.id);
   
+      // If no emergency is found, return a 404 response with a clear message
       if (!emergency) {
         return res.status(404).json({ msg: 'Emergency not found' });
       }
   
-      return res.json({ msg: 'Emergency found successfully' });
+      // Return the found emergency as part of the response body
+      return res.json( emergency );
     } catch (ex) {
+      // Handle any other errors that might occur
       next(ex);
     }
   };
+  
 
 //sending emergency  
 
