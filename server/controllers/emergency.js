@@ -1,4 +1,19 @@
-const Emergency = require('../models/emergencyModel')
+
+const Emergency = require('../models/emergencyModel');
+const twilio = require('twilio');
+
+require('dotenv').config();
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+
+let twilioClient;
+
+if (accountSid && authToken) {
+  twilioClient = twilio(accountSid, authToken);
+} else {
+  console.warn('Twilio credentials are missing. SMS notifications will not be sent.');
+}
+
 
 module.exports.getAllEmergencies = async (req, res, next) => {
     try {
@@ -28,6 +43,19 @@ module.exports.getAllEmergencies = async (req, res, next) => {
   
       if (!emergency) {
         return res.status(404).json({ msg: 'Emergency not found' });
+      }
+
+      //Send SMS notification
+
+      try{
+          const message = await client.messages.create({
+            body: `Your emergency request status has been updated to: ${status}`,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: emergency.phone
+          });
+          console.log('SMS sent successfully:', message.sid);
+      }catch(smsError){
+        console.error('Failed to send SMS notification:', smsError);
       }
   
       return res.status(201).json({ msg: 'Emergency status updated successfully' , emergency});

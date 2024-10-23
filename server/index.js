@@ -2,8 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
+const call = require("./routes/call")
+const userRoutes = require("./routes/user")
 const messageRoutes = require("./routes/messages");
-const emergencyRoutes = require("./routes/emergency"); // Import the emergency routes
+const emergencyRoutes = require("./routes/emergency");
 
 const socket = require("socket.io");
 require("dotenv").config();
@@ -25,7 +27,9 @@ mongoose
   //routes
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
-app.use("/api/emergency", emergencyRoutes); // Mount the emergency routes to the '/api/emergency' endpoint
+app.use("/api/emergency", emergencyRoutes); 
+app.use("/api/call", call )
+app.use("/api/user", userRoutes)
 
 const server = app.listen(process.env.PORT, () =>
   console.log(`Server started on ${process.env.PORT}`)
