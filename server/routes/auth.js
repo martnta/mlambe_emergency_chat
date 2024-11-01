@@ -1,6 +1,6 @@
 const {
   login,
-  register,
+ register,
   getEMPProfile: getAllUsers,
   setAvatar,
   logOut,
