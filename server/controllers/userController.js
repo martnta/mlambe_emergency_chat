@@ -50,7 +50,7 @@ module.exports.login = async (req, res, next) => {
 //get all chats
 module.exports.getAllUsers = async (req, res, next) => {
   try {
-    const users = await User.find({ _id: { $ne: req.params.id } }).select([
+    const users = await Users.find({ _id: req.params.id, }).select([
       "email",
       "username",
       "avatarImage",
@@ -197,6 +197,82 @@ module.exports.approveApplication = async (req, res, next) => {
 };
 
 // Helper controller to update response metrics
+// Add this to your existing controller file
+
+module.exports.getEMPPerformance = async (req, res, next) => {
+  try {
+    const empId = req.params.id;
+
+    // Find the EMP by ID and ensure they have the 'emp' role
+    const emp = await Users.findOne({ 
+      _id: empId,
+      role: 'emp'
+    }).select([
+      'assignedEmergencies',
+      'completedEmergencies',
+      'responseTime',
+      'successRate',
+      'lastActive'
+    ]);
+
+    if (!emp) {
+      return res.status(404).json({
+        status: false,
+        msg: "EMP not found"
+      });
+    }
+
+    // Calculate performance metrics
+    const activeEmergencies = emp.assignedEmergencies - emp.completedEmergencies;
+    const completionRate = emp.assignedEmergencies > 0 
+      ? ((emp.completedEmergencies / emp.assignedEmergencies) * 100).toFixed(1)
+      : '0.0';
+    
+    // Parse response time from string (removes ' mins' suffix)
+    const avgResponseTime = emp.responseTime !== 'N/A' 
+      ? parseFloat(emp.responseTime.split(' ')[0])
+      : 0;
+
+    // Parse success rate from string (removes '%' suffix)
+    const successRate = emp.successRate !== 'N/A'
+      ? parseFloat(emp.successRate)
+      : 0;
+
+    // Calculate overall performance score (weighted average)
+    const weights = {
+      completionRate: 0.3,
+      responseTime: 0.3,
+      successRate: 0.4
+    };
+
+    // Response time score (lower is better, max 60 mins)
+    const responseTimeScore = Math.max(0, 100 - (avgResponseTime * (100/60)));
+
+    const performanceScore = Math.round(
+      (parseFloat(completionRate) * weights.completionRate) +
+      (responseTimeScore * weights.responseTime) +
+      (successRate * weights.successRate)
+    );
+
+    return res.json({
+      status: true,
+      data: {
+        performanceScore,
+        responseTime: avgResponseTime,
+        activeEmergencies,
+        completedEmergencies: emp.completedEmergencies,
+        totalEmergencies: emp.assignedEmergencies,
+        completionRate: `${completionRate}%`,
+        successRate: emp.successRate,
+        lastActive: emp.lastActive
+      }
+    });
+
+  } catch (ex) {
+    console.error('Error fetching EMP performance:', ex);
+    next(ex);
+  }
+};
 module.exports.updateMetrics = async (req, res, next) => {
   try {
     const { userId } = req.params;

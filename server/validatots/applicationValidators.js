@@ -2,12 +2,12 @@
 
 const validSpecializations = [
     'Emergency Medicine',
-    'Trauma',
-    'Critical Care',
-    'Pediatric Emergency',
-    'Cardiac Emergency',
-    'Disaster Response',
-    'General Emergency'
+      'Trauma',
+      'Critical Care',
+      'Pediatric Emergency',
+      'Cardiac Emergency',
+      'Disaster Response',
+      'General Emergency'
   ];
   
   const validCertifications = [

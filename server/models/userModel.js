@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["emp", "admin", "applicant"],
-    default: "Applicant",
+    default: "applicant",
   },
   // New fields for emergency response personnel
   specialization: {

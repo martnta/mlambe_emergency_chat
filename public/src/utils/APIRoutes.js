@@ -9,4 +9,3 @@ export const setAvatarRoute = `${host}/api/auth/setavatar`;
 export const getEmergency = `${host}api/emergency/getemg/`;
 export const updatedate = `${host}api/emergency//updateemg/`;
 
- 

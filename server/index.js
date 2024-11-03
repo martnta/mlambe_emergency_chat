@@ -27,7 +27,7 @@ mongoose
   //routes
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
-app.use("/api/emergency", emergencyRoutes); 
+app.use("/api/emergency", emergencyRoutes);
 app.use("/api/call", call )
 app.use("/api/user", userRoutes)
 
@@ -44,6 +44,7 @@ const io = socket(server, {
 global.onlineUsers = new Map();
 io.on("connection", (socket) => {
   global.chatSocket = socket;
+
   socket.on("add-user", (userId) => {
     onlineUsers.set(userId, socket.id);
   });
@@ -51,7 +52,11 @@ io.on("connection", (socket) => {
   socket.on("send-msg", (data) => {
     const sendUserSocket = onlineUsers.get(data.to);
     if (sendUserSocket) {
-      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+      socket.to(sendUserSocket).emit("msg-recieve", {
+        from: data.from,
+        message: data.message,
+        timestamp: new Date().toISOString()
+      });
     }
   });
 });
