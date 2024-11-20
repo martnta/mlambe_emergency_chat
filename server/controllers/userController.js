@@ -48,9 +48,22 @@ module.exports.login = async (req, res, next) => {
 };
 
 //get all chats
-module.exports.getAllUsers = async (req, res, next) => {
+module.exports.getAllUserById = async (req, res, next) => {
   try {
     const users = await Users.find({ _id: req.params.id, }).select([
+      "email",
+      "username",
+      "avatarImage",
+      "_id",
+    ]);
+    return res.json(users);
+  } catch (ex) {
+    next(ex);
+  }
+};
+module.exports.getAllUsers = async (req, res, next) => {
+  try {
+    const users = await Users.find().select([
       "email",
       "username",
       "avatarImage",

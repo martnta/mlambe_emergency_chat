@@ -2,6 +2,7 @@ const {
   getAllApplications,
     getEMPProfile,
     getApplicationDetailsById,
+    getAllUserById,
     getAllUsers,
     setAvatar,
     logOut,
@@ -15,7 +16,8 @@ const {
     getEMPById,
     approveApplication,
     getApplicationDetails,
-    getApplicationStats
+    getApplicationStats,
+   
   } = require("../controllers/userController");
   
   const router = require("express").Router();
@@ -23,7 +25,8 @@ const {
 
   router.get("/emp-profile/:id",verifyToken, getEMPProfile);
   router.get('/emps/:id', verifyToken,getEMPById)
-  router.get('/chats/:id',  getAllUsers)
+  router.get('/chats/:id', verifyToken, getAllUserById)
+  router.get('/users', verifyToken, getAllUsers)
   router.get('/emps', verifyToken, getAllEmployees)
   router.get('/apply',verifyToken, empApplication)
   router.get('/apply/:id', verifyToken, getApplicationDetailsById)

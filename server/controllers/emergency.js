@@ -6,6 +6,7 @@ require('dotenv').config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 
+// initialising sms client
 let twilioClient;
 
 if (accountSid && authToken) {
@@ -14,7 +15,7 @@ if (accountSid && authToken) {
   console.warn('Twilio credentials are missing. SMS notifications will not be sent.');
 }
 
-
+// getting all emergencies
 module.exports.getAllEmergencies = async (req, res, next) => {
     try {
       const emergencies = await Emergency.find({ _id: { $ne: req.params.id } }).select([
@@ -89,11 +90,12 @@ module.exports.getAllEmergencies = async (req, res, next) => {
 
 module.exports.addEmergency = async (req, res, next) => {
   try {
-    const { type, name, email,status,latitude, longitude} = req.body;
+    const { type, name, phone, email,status,latitude, longitude} = req.body;
     const data = await Emergency.create({
         type,
         name,
         email,
+        phone,
         status,
         latitude,
         longitude
